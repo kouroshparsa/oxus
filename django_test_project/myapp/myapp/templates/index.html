@@ -1,0 +1,20 @@
+{% load staticfiles %}
+<html>
+<head>
+  {{ plot_header|safe }}
+
+  <script type="text/javascript">
+  {{ plot1_script|safe }}
+  {{ plot2_script|safe }}
+  </script>
+</head>
+<body>
+<h1>Sample App</h1>
+
+<h2>Scattern Plot</h2>
+<div id="plot1"><svg style="width:800px;height:350px;"></svg></div>
+
+<h2>Pie Chart</h2>
+<div id="plot2"><svg style="width:800px;height:350px;"></svg></div>
+</body>
+</html>
