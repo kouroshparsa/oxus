@@ -21,8 +21,8 @@ class Plot(object):
         self.top_margin = kwargs.get('top_margin', 30);
         self.bottom_margin = kwargs.get('bottom_margin', 30);
 
-        self.width = kwargs.get('width', 100);
-        self.height = kwargs.get('height', 100);
+        self.width = kwargs.get('width', 800);
+        self.height = kwargs.get('height', 350);
 
         self.show_legend = str(kwargs.get('show_legend', True)).lower()
 
@@ -80,3 +80,46 @@ class PieChart(Plot):
             if 'tooltips' in kwargs and len(kwargs['tooltips']) > ind:
                 self.tooltips.append(kwargs['tooltips'][ind])
 
+
+class TreeChart(Plot):
+    def convert_to_tree(self, data, parent='null'):
+        """
+        @data: either str, list, dict
+        @parent: str
+        recursively converts the data to the treenode data format
+        """
+        if isinstance(data, basestring):
+            return {'name': str(data), 'parent': str(parent)}
+
+        output = []
+        if isinstance(data, list):
+            if len(data) == 1:
+                return self.convert_to_tree(data[0], parent)
+
+            for val in data:
+                val = self.convert_to_tree(val, parent)
+                if isinstance(val, list) and len(val) == 1:
+                    val = val[0]
+                output.append(val)
+            return output
+
+        for key, val in data.items():
+            subdata = {'name': str(key), 'parent': str(parent)}
+            children = self.convert_to_tree(val, key)
+            if len(children) > 0:
+                subdata['children'] = children
+            output.append(subdata)
+        return output
+
+
+    def __init__(self, *args, **kwargs):
+        """
+        id, values={}, add_br=True, enable_click=True, wrap_width=150 (pixels)
+        """
+        self.template = 'tree_chart.js'
+
+        kwargs['add_br'] = str(kwargs.get('add_br', True)).lower()
+        kwargs['enable_click'] = str(kwargs.get('enable_click', True)).lower()
+        kwargs['wrap_width'] = str(kwargs.get('wrap_width', 150)).lower()
+        super(TreeChart, self).__init__(*args, **kwargs)
+        self.data = self.convert_to_tree(kwargs['values'])[0]

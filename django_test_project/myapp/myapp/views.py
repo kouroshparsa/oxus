@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from pd3js.plots import get_header, ScatterPlot, PieChart
+from pd3js.plots import get_header, ScatterPlot, PieChart, TreeChart
 from settings import STATIC_URL
 import random
 import string
@@ -24,10 +24,13 @@ def index(request):
     labels = ['apple', 'orange', 'banana']
     plt2 = PieChart('plot2', values=values, labels=labels, is_donut=True, is_lbl_percent=True, labels_outside=True)
 
+    values = {'food': {'fruits': ['apple', 'orange', 'banana'], 'vegetables': ['mint', 'asparagus', 'eggplant', 'avocado', 'braccoli']}}
+    plt3 = TreeChart('plot3', values=values)
+
     page_data = {'plot1_script': plt1.get_script(),\
                  'plot2_script': plt2.get_script(),\
+                 'plot3_script': plt3.get_script(),\
                  'plot_header': HEADER}
-
 
     return render(request, "index.html", page_data)
 

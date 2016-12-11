@@ -1,4 +1,4 @@
-        nv.addGraph(function() {
+nv.addGraph(function() {
          var chart = nv.models.scatterChart();
 
          chart.margin({
@@ -28,10 +28,10 @@
            }
          });
 
+         document.getElementById("{{id}}").innerHTML = '<svg style="width:{{width + left_margin + right_margin}}px;height:{{height + top_margin + bottom_margin}}px;"></svg>';
+
          d3.select('#{{id}} svg')
           .datum(data)
           .transition().duration(500)
-          .attr('width', {{width}})
-          .attr('height', {{height}})
           .call(chart);
-        });
+});
