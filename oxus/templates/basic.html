@@ -1,0 +1,21 @@
+<html>
+<head>
+  {{ plot_header|safe }}
+</head>
+<body>
+<h1>Sample App</h1>
+
+{% for plt in plots %}
+  <h2>{{plt.id}}</h2>
+  <div id="{{plt.id}}"></div>
+{% endfor %}
+
+<script type="text/javascript">
+  {% for plt in plots %}
+    {{ plt.script|safe }}
+  {% endfor %}
+</script>
+
+</body>
+</html>
+

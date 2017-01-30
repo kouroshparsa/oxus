@@ -1,0 +1,345 @@
+<html>
+<head>
+    <script src="https://raw.githubusercontent.com/kouroshparsa/oxus/master/oxus/static/oxus/js/common.js" type="text/javascript"></script>
+  <script src="https://raw.githubusercontent.com/kouroshparsa/oxus/master/oxus/static/oxus//js/d3.min.js" type="text/javascript"></script>
+  <script src="https://raw.githubusercontent.com/kouroshparsa/oxus/master/oxus/static/oxus/js/nv.d3.min.js" type="text/javascript"></script>
+  <script src="https://raw.githubusercontent.com/kouroshparsa/oxus/master/oxus/static/oxus/js/tree_node.js" type="text/javascript"></script>
+  <script src="https://raw.githubusercontent.com/kouroshparsa/oxus/master/oxus/static/oxus/js/mpld3.v0.2.js" type="text/javascript"></script>
+
+  <style> svg.nvd3-svg{-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-ms-user-select:none;-moz-user-select:none;user-select:none;display:block}.nvtooltip.with-3d-shadow,.with-3d-shadow .nvtooltip{-moz-box-shadow:0 5px 10px rgba(0,0,0,.2);-webkit-box-shadow:0 5px 10px rgba(0,0,0,.2);box-shadow:0 5px 10px rgba(0,0,0,.2);-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px}.nvtooltip{position:absolute;background-color:rgba(255,255,255,1);padding:1px;border:1px solid rgba(0,0,0,.2);z-index:10000;font-family:Arial;font-size:13px;text-align:left;pointer-events:none;white-space:nowrap;-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.nvtooltip.with-transitions,.with-transitions .nvtooltip{transition:opacity 50ms linear;-moz-transition:opacity 50ms linear;-webkit-transition:opacity 50ms linear;transition-delay:200ms;-moz-transition-delay:200ms;-webkit-transition-delay:200ms}.nvtooltip.x-nvtooltip,.nvtooltip.y-nvtooltip{padding:8px}.nvtooltip h3{margin:0;padding:4px 14px;line-height:18px;font-weight:400;background-color:rgba(247,247,247,.75);text-align:center;border-bottom:1px solid #ebebeb;-webkit-border-radius:5px 5px 0 0;-moz-border-radius:5px 5px 0 0;border-radius:1px 5px 0 0}.nvtooltip p{margin:0;padding:5px 14px;text-align:center}.nvtooltip span{display:inline-block;margin:2px 0}.nvtooltip table{margin:6px;border-spacing:0}.nvtooltip table td{padding:2px 9px 2px 0;vertical-align:middle}.nvtooltip table td.key{font-weight:400}.nvtooltip table td.value{text-align:right;font-weight:700}.nvtooltip table tr.highlight td{padding:1px 9px 1px 0;border-bottom-style:solid;border-bottom-width:1px;border-top-style:solid;border-top-width:1px}.nvtooltip table td.legend-color-guide div{width:8px;height:8px;vertical-align:middle}.nvtooltip .footer{padding:3px;text-align:center}.nvtooltip-pending-removal{position:absolute;pointer-events:none}.nvd3 text{font:400 12px Arial}.nvd3 .nv-background{fill:#fff;fill-opacity:0}.nvd3.nv-noData{font-size:18px;font-weight:700}.nv-brush .extent{fill-opacity:.125;shape-rendering:crispEdges}.nvd3 .nv-legend .nv-series{cursor:pointer}.nvd3 .nv-legend .nv-disabled circle{fill-opacity:0}.axis{opacity:1}.axis.nv-disabled{opacity:0}.nvd3 .nv-axis{pointer-events:none}.nvd3 .nv-axis path{fill:none;stroke:#000;stroke-opacity:.75;shape-rendering:crispEdges}.nvd3 .nv-axis path.domain{stroke-opacity:.75}.nvd3 .nv-axis.nv-x path.domain{stroke-opacity:0}.nvd3 .nv-axis line{fill:none;stroke:#e5e5e5;shape-rendering:crispEdges}.nvd3 .nv-axis .zero line,.nvd3 .nv-axis line.zero{stroke-opacity:.75}.nvd3 .nv-axis .nv-axisMaxMin text{font-weight:700}.nvd3 .x .nv-axis .nv-axisMaxMin text,.nvd3 .x2 .nv-axis .nv-axisMaxMin text,.nvd3 .x3 .nv-axis .nv-axisMaxMin text{text-anchor:middle}.nv-brush .resize path{fill:#eee;stroke:#666}.nvd3 .nv-bars .negative rect{zfill:brown}.nvd3 .nv-bars rect{zfill:#4682b4;fill-opacity:.75;transition:fill-opacity 250ms linear;-moz-transition:fill-opacity 250ms linear;-webkit-transition:fill-opacity 250ms linear}.nvd3 .nv-bars rect.hover{fill-opacity:1}.nvd3 .nv-bars .hover rect{fill:#add8e6}.nvd3 .nv-bars text{fill:rgba(0,0,0,0)}.nvd3 .nv-bars .hover text{fill:rgba(0,0,0,1)}.nvd3 .nv-multibar .nv-groups rect,.nvd3 .nv-multibarHorizontal .nv-groups rect,.nvd3 .nv-discretebar .nv-groups rect{stroke-opacity:0;transition:fill-opacity 250ms linear;-moz-transition:fill-opacity 250ms linear;-webkit-transition:fill-opacity 250ms linear}.nvd3 .nv-multibar .nv-groups rect:hover,.nvd3 .nv-multibarHorizontal .nv-groups rect:hover,.nvd3 .nv-discretebar .nv-groups rect:hover{fill-opacity:1}.nvd3 .nv-discretebar .nv-groups text,.nvd3 .nv-multibarHorizontal .nv-groups text{font-weight:700;fill:rgba(0,0,0,1);stroke:rgba(0,0,0,0)}.nvd3.nv-pie path{stroke-opacity:0;transition:fill-opacity 250ms linear,stroke-width 250ms linear,stroke-opacity 250ms linear;-moz-transition:fill-opacity 250ms linear,stroke-width 250ms linear,stroke-opacity 250ms linear;-webkit-transition:fill-opacity 250ms linear,stroke-width 250ms linear,stroke-opacity 250ms linear}.nvd3.nv-pie .nv-pie-title{font-size:24px;fill:rgba(19,196,249,.59)}.nvd3.nv-pie .nv-slice text{stroke:#000;stroke-width:0}.nvd3.nv-pie path{stroke:#fff;stroke-width:1px;stroke-opacity:1}.nvd3.nv-pie .hover path{fill-opacity:.7}.nvd3.nv-pie .nv-label{pointer-events:none}.nvd3.nv-pie .nv-label rect{fill-opacity:0;stroke-opacity:0}.nvd3 .nv-groups path.nv-line{fill:none;stroke-width:1.5px}.nvd3 .nv-groups path.nv-line.nv-thin-line{stroke-width:1px}.nvd3 .nv-groups path.nv-area{stroke:none}.nvd3 .nv-line.hover path{stroke-width:6px}.nvd3.nv-line .nvd3.nv-scatter .nv-groups .nv-point{fill-opacity:0;stroke-opacity:0}.nvd3.nv-scatter.nv-single-point .nv-groups .nv-point{fill-opacity:.5!important;stroke-opacity:.5!important}.with-transitions .nvd3 .nv-groups .nv-point{transition:stroke-width 250ms linear,stroke-opacity 250ms linear;-moz-transition:stroke-width 250ms linear,stroke-opacity 250ms linear;-webkit-transition:stroke-width 250ms linear,stroke-opacity 250ms linear}.nvd3.nv-scatter .nv-groups .nv-point.hover,.nvd3 .nv-groups .nv-point.hover{stroke-width:7px;fill-opacity:.95!important;stroke-opacity:.95!important}.nvd3 .nv-point-paths path{stroke:#aaa;stroke-opacity:0;fill:#eee;fill-opacity:0}.nvd3 .nv-indexLine{cursor:ew-resize}.nvd3 .nv-distribution{pointer-events:none}.nvd3 .nv-groups .nv-point.hover{stroke-width:20px;stroke-opacity:.5}.nvd3 .nv-scatter .nv-point.hover{fill-opacity:1}.nvd3.nv-stackedarea path.nv-area{fill-opacity:.7;stroke-opacity:0;transition:fill-opacity 250ms linear,stroke-opacity 250ms linear;-moz-transition:fill-opacity 250ms linear,stroke-opacity 250ms linear;-webkit-transition:fill-opacity 250ms linear,stroke-opacity 250ms linear}.nvd3.nv-stackedarea path.nv-area.hover{fill-opacity:.9}.nvd3.nv-stackedarea .nv-groups .nv-point{stroke-opacity:0;fill-opacity:0}.nvd3.nv-linePlusBar .nv-bar rect{fill-opacity:.75}.nvd3.nv-linePlusBar .nv-bar rect:hover{fill-opacity:1}.nvd3.nv-bullet{font:10px sans-serif}.nvd3.nv-bullet .nv-measure{fill-opacity:.8}.nvd3.nv-bullet .nv-measure:hover{fill-opacity:1}.nvd3.nv-bullet .nv-marker{stroke:#000;stroke-width:2px}.nvd3.nv-bullet .nv-markerTriangle{stroke:#000;fill:#fff;stroke-width:1.5px}.nvd3.nv-bullet .nv-tick line{stroke:#666;stroke-width:.5px}.nvd3.nv-bullet .nv-range.nv-s0{fill:#eee}.nvd3.nv-bullet .nv-range.nv-s1{fill:#ddd}.nvd3.nv-bullet .nv-range.nv-s2{fill:#ccc}.nvd3.nv-bullet .nv-title{font-size:14px;font-weight:700}.nvd3.nv-bullet .nv-subtitle{fill:#999}.nvd3.nv-bullet .nv-range{fill:#bababa;fill-opacity:.4}.nvd3.nv-bullet .nv-range:hover{fill-opacity:.7}.nvd3.nv-sparkline path{fill:none}.nvd3.nv-sparklineplus g.nv-hoverValue{pointer-events:none}.nvd3.nv-sparklineplus .nv-hoverValue line{stroke:#333;stroke-width:1.5px}.nvd3.nv-sparklineplus,.nvd3.nv-sparklineplus g{pointer-events:all}.nvd3 .nv-hoverArea{fill-opacity:0;stroke-opacity:0}.nvd3.nv-sparklineplus .nv-xValue,.nvd3.nv-sparklineplus .nv-yValue{stroke-width:0;font-size:.9em;font-weight:400}.nvd3.nv-sparklineplus .nv-yValue{stroke:#f66}.nvd3.nv-sparklineplus .nv-maxValue{stroke:#2ca02c;fill:#2ca02c}.nvd3.nv-sparklineplus .nv-minValue{stroke:#d62728;fill:#d62728}.nvd3.nv-sparklineplus .nv-currentValue{font-weight:700;font-size:1.1em}.nvd3.nv-ohlcBar .nv-ticks .nv-tick{stroke-width:1px}.nvd3.nv-ohlcBar .nv-ticks .nv-tick.hover{stroke-width:2px}.nvd3.nv-ohlcBar .nv-ticks .nv-tick.positive{stroke:#2ca02c}.nvd3.nv-ohlcBar .nv-ticks .nv-tick.negative{stroke:#d62728}.nvd3.nv-historicalStockChart .nv-axis .nv-axislabel{font-weight:700}.nvd3.nv-historicalStockChart .nv-dragTarget{fill-opacity:0;stroke:none;cursor:move}.nvd3 .nv-brush .extent{fill-opacity:0!important}.nvd3 .nv-brushBackground rect{stroke:#000;stroke-width:.4;fill:#fff;fill-opacity:.7}.nvd3 .background path{fill:none;stroke:#EEE;stroke-opacity:.4;shape-rendering:crispEdges}.nvd3 .foreground path{fill:none;stroke-opacity:.7}.nvd3 .brush .extent{fill-opacity:.3;stroke:#fff;shape-rendering:crispEdges}.nvd3 .axis line,.axis path{fill:none;stroke:#000;shape-rendering:crispEdges}.nvd3 .axis text{text-shadow:0 1px 0 #fff}.nvd3 .nv-interactiveGuideLine{pointer-events:none}.nvd3 line.nv-guideline{stroke:#ccc} .node {
+    cursor: pointer;
+}
+.node circle {
+    fill: #fff;
+    stroke: steelblue;
+    stroke-width: 3px;
+}
+.node text {
+    font: 12px sans-serif;
+}
+.link {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 2px;
+}
+
+
+</style>
+
+</head>
+<body>
+<h1>Sample App</h1>
+
+
+  <h2>plot1</h2>
+  <div id="plot1"></div>
+
+  <h2>plot2</h2>
+  <div id="plot2"></div>
+
+  <h2>plot3</h2>
+  <div id="plot3"></div>
+
+  <h2>plot4</h2>
+  <div id="plot4"></div>
+
+
+<script type="text/javascript">
+  
+    nv.addGraph(function() {
+         var chart = nv.models.scatterChart();
+
+         chart.margin({
+          top: 30,
+          right: 60,
+          bottom: 30,
+          left: 60
+         });
+
+         var data = [{'values': [{'y': 0, 'x': 0, 'shape': 'circle', 'size': '10'}, {'y': 6, 'x': 1, 'shape': 'circle', 'size': '10'}, {'y': 8, 'x': 2, 'shape': 'circle', 'size': '10'}, {'y': 30, 'x': 3, 'shape': 'circle', 'size': '10'}, {'y': 20, 'x': 4, 'shape': 'circle', 'size': '10'}, {'y': 10, 'x': 5, 'shape': 'circle', 'size': '10'}, {'y': 42, 'x': 6, 'shape': 'circle', 'size': '10'}, {'y': 42, 'x': 7, 'shape': 'circle', 'size': '10'}, {'y': 32, 'x': 8, 'shape': 'circle', 'size': '10'}, {'y': 54, 'x': 9, 'shape': 'circle', 'size': '10'}, {'y': 100, 'x': 10, 'shape': 'circle', 'size': '10'}, {'y': 22, 'x': 11, 'shape': 'circle', 'size': '10'}, {'y': 108, 'x': 12, 'shape': 'circle', 'size': '10'}, {'y': 78, 'x': 13, 'shape': 'circle', 'size': '10'}, {'y': 70, 'x': 14, 'shape': 'circle', 'size': '10'}, {'y': 75, 'x': 15, 'shape': 'circle', 'size': '10'}, {'y': 112, 'x': 16, 'shape': 'circle', 'size': '10'}, {'y': 153, 'x': 17, 'shape': 'circle', 'size': '10'}, {'y': 54, 'x': 18, 'shape': 'circle', 'size': '10'}, {'y': 152, 'x': 19, 'shape': 'circle', 'size': '10'}], 'key': 'data1', 'yAxis': '1'}, {'values': [{'y': 0, 'x': 0, 'shape': 'cross', 'tooltip': 'MRSX', 'size': '20'}, {'y': 12, 'x': 1, 'shape': 'cross', 'tooltip': 'TBR9', 'size': '20'}, {'y': 16, 'x': 2, 'shape': 'cross', 'tooltip': 'L7EE', 'size': '20'}, {'y': 60, 'x': 3, 'shape': 'cross', 'tooltip': 'O9TD', 'size': '20'}, {'y': 40, 'x': 4, 'shape': 'cross', 'tooltip': 'YRPA', 'size': '20'}, {'y': 20, 'x': 5, 'shape': 'cross', 'tooltip': 'B2KR', 'size': '20'}, {'y': 84, 'x': 6, 'shape': 'cross', 'tooltip': '23ZH', 'size': '20'}, {'y': 84, 'x': 7, 'shape': 'cross', 'tooltip': 'FCFP', 'size': '20'}, {'y': 64, 'x': 8, 'shape': 'cross', 'tooltip': 'Z35M', 'size': '20'}, {'y': 108, 'x': 9, 'shape': 'cross', 'tooltip': 'HSXX', 'size': '20'}, {'y': 200, 'x': 10, 'shape': 'cross', 'tooltip': '7VEP', 'size': '20'}, {'y': 44, 'x': 11, 'shape': 'cross', 'tooltip': 'ON97', 'size': '20'}, {'y': 216, 'x': 12, 'shape': 'cross', 'tooltip': 'EBVN', 'size': '20'}, {'y': 156, 'x': 13, 'shape': 'cross', 'tooltip': 'YD2O', 'size': '20'}, {'y': 140, 'x': 14, 'shape': 'cross', 'tooltip': 'X0TC', 'size': '20'}, {'y': 150, 'x': 15, 'shape': 'cross', 'tooltip': 'FY4C', 'size': '20'}, {'y': 224, 'x': 16, 'shape': 'cross', 'tooltip': '2CW6', 'size': '20'}, {'y': 306, 'x': 17, 'shape': 'cross', 'tooltip': 'PPMS', 'size': '20'}, {'y': 108, 'x': 18, 'shape': 'cross', 'tooltip': '28I5', 'size': '20'}, {'y': 304, 'x': 19, 'shape': 'cross', 'tooltip': 'T3BC', 'size': '20'}], 'key': 'data2', 'yAxis': '1'}];
+
+         chart.xAxis.tickFormat(d3.format(',.02f'));
+         chart.yAxis.tickFormat(d3.format(',.02f'));
+
+         chart.showLegend(true);
+         chart.showDistX();
+         chart.showDistY();
+
+         
+
+         var tooltips = {'data2': {'11': 'ON97', '10': '7VEP', '13': 'YD2O', '12': 'EBVN', '15': 'FY4C', '14': 'X0TC', '17': 'PPMS', '16': '2CW6', '19': 'T3BC', '18': '28I5', '1': 'TBR9', '0': 'MRSX', '3': 'O9TD', '2': 'L7EE', '5': 'B2KR', '4': 'YRPA', '7': 'FCFP', '6': '23ZH', '9': 'HSXX', '8': 'Z35M'}};
+         chart.tooltipContent(function(key, x, y, graph) {
+           if(tooltips[key] != undefined && tooltips[key][parseFloat(x)] != undefined){
+             return tooltips[key][parseFloat(x)];
+           }else{
+             return y;
+           }
+         });
+
+         document.getElementById("plot1").innerHTML = '<svg style="width:920px;height:410px;"></svg>';
+
+         d3.select('#plot1 svg')
+          .datum(data)
+          .transition().duration(500)
+          .call(chart);
+});
+  
+    nv.addGraph(function() {
+         var chart = nv.models.pieChart();
+
+         chart.margin({
+          top: 30,
+          right: 60,
+          bottom: 30,
+          left: 60
+         });
+
+         var data = [{'value': 2, 'label': 'apple'}, {'value': 3, 'label': 'orange'}, {'value': 5, 'label': 'banana'}];
+
+        chart.showLabels();
+        chart.donut(true);
+        chart.showLegend(true);
+        chart.donutLabelsOutside(true);
+        chart.labelType("percent");
+
+        chart
+            .x(function(d) { return d.label })
+            .y(function(d) { return d.value });
+
+         chart.width(800);
+         chart.height(350);
+
+
+         
+
+         var tooltips = [];
+         chart.tooltipContent(function(key, x, y, graph) {
+           if(tooltips[key] != undefined && tooltips[key][parseFloat(x)] != undefined){
+             return tooltips[key][parseFloat(x)];
+           }else{
+             var x = String(key);
+             tooltip_str = '<center><b>'+x+'</b></center>' + y.value;
+             return tooltip_str;
+           }
+         });
+
+         document.getElementById("plot2").innerHTML = '<svg style="width:920px;height:410px;"></svg>';
+
+         d3.select('#plot2 svg')
+          .datum(data)
+          .transition().duration(500)
+          .call(chart);
+});
+  
+    addLoadEvent(function(){
+  var data = {'name': 'food', 'parent': 'null', 'children': [{'name': 'vegetables', 'parent': 'food', 'children': [{'name': 'mint', 'parent': 'vegetables'}, {'name': 'asparagus', 'parent': 'vegetables'}, {'name': 'eggplant', 'parent': 'vegetables'}, {'name': 'avocado', 'parent': 'vegetables'}, {'name': 'braccoli', 'parent': 'vegetables'}]}, {'name': 'fruits', 'parent': 'food', 'children': [{'name': 'apple', 'parent': 'fruits'}, {'name': 'orange', 'parent': 'fruits'}, {'name': 'banana', 'parent': 'fruits'}]}]};
+  draw_tree("plot3", data, 800, 350, 60, 60, 30, 30, true, true, 150);
+});
+
+  
+    mpld3.draw_figure("plot4",
+{
+	"axes": [{
+		"xlim": [-0.19999999999999996, 3.8],
+		"yscale": "linear",
+		"axesbg": "#EEEEEE",
+		"texts": [{
+			"v_baseline": "hanging",
+			"h_anchor": "middle",
+			"color": "#000000",
+			"text": "Expected",
+			"coordinates": "axes",
+			"zorder": 3,
+			"alpha": 1,
+			"fontsize": 12.0,
+			"position": [0.5, -0.059895833333333329],
+			"rotation": -0.0,
+			"id": "el18376132984112"
+		}, {
+			"v_baseline": "auto",
+			"h_anchor": "middle",
+			"color": "#000000",
+			"text": "Actual",
+			"coordinates": "axes",
+			"zorder": 3,
+			"alpha": 1,
+			"fontsize": 12.0,
+			"position": [-0.059979838709677422, 0.5],
+			"rotation": -90.0,
+			"id": "el18376133003136"
+		}, {
+			"v_baseline": "auto",
+			"h_anchor": "middle",
+			"color": "#000000",
+			"text": "Correlation",
+			"coordinates": "axes",
+			"zorder": 3,
+			"alpha": 1,
+			"fontsize": 20,
+			"position": [0.5, 1.0144675925925926],
+			"rotation": -0.0,
+			"id": "el18376133065136"
+		}, {
+			"v_baseline": "auto",
+			"h_anchor": "start",
+			"color": "#FF0000",
+			"text": "dataA",
+			"coordinates": "axes",
+			"zorder": 1000003.0,
+			"alpha": 1,
+			"fontsize": 14.399999999999999,
+			"position": [0.11935483870967742, 0.93124999999999991],
+			"rotation": -0.0,
+			"id": "el18376133140432"
+		}, {
+			"v_baseline": "auto",
+			"h_anchor": "start",
+			"color": "#008000",
+			"text": "dataB",
+			"coordinates": "axes",
+			"zorder": 1000003.0,
+			"alpha": 1,
+			"fontsize": 14.399999999999999,
+			"position": [0.11935483870967742, 0.87135416666666654],
+			"rotation": -0.0,
+			"id": "el18376133149472"
+		}],
+		"zoomable": true,
+		"images": [],
+		"xdomain": [-0.19999999999999996, 3.8],
+		"ylim": [0.0, 4.5],
+		"sharey": [],
+		"sharex": [],
+		"axesbgalpha": null,
+		"axes": [{
+			"scale": "linear",
+			"tickformat": null,
+			"grid": {
+				"color": "#FFFFFF",
+				"alpha": 1.0,
+				"dasharray": "10,0",
+				"gridOn": true
+			},
+			"fontsize": 12.0,
+			"position": "bottom",
+			"nticks": 7,
+			"tickvalues": null
+		}, {
+			"scale": "linear",
+			"tickformat": null,
+			"grid": {
+				"color": "#FFFFFF",
+				"alpha": 1.0,
+				"dasharray": "10,0",
+				"gridOn": true
+			},
+			"fontsize": 12.0,
+			"position": "left",
+			"nticks": 8,
+			"tickvalues": null
+		}],
+		"lines": [{
+                "color": "blue",
+                "yindex": 1,
+                "coordinates": "data",
+                "dasharray": "10,0",
+                "zorder": 2,
+                "alpha": 1,
+                "xindex": 0,
+                "linewidth": 1,
+                "data": "linedata",
+                "id": "el13160132814888"
+                }],
+		"markers": [],
+		"id": "el18376132980864",
+		"ydomain": [0.0, 4.5],
+		"collections": [
+                
+  		    {"paths": [[[[0.0, -0.5], [0.13260155, -0.5], [0.25978993539242673, -0.44731684579412084], [0.3535533905932738, -0.3535533905932738], [0.44731684579412084, -0.25978993539242673], [0.5, -0.13260155], [0.5, 0.0], [0.5, 0.13260155], [0.44731684579412084, 0.25978993539242673], [0.3535533905932738, 0.3535533905932738], [0.25978993539242673, 0.44731684579412084], [0.13260155, 0.5], [0.0, 0.5], [-0.13260155, 0.5], [-0.25978993539242673, 0.44731684579412084], [-0.3535533905932738, 0.3535533905932738], [-0.44731684579412084, 0.25978993539242673], [-0.5, 0.13260155], [-0.5, 0.0], [-0.5, -0.13260155], [-0.44731684579412084, -0.25978993539242673], [-0.3535533905932738, -0.3535533905932738], [-0.25978993539242673, -0.44731684579412084], [-0.13260155, -0.5], [0.0, -0.5]], ['M', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'Z']]],
+		     "edgecolors": ["#000000"],
+		     "edgewidths": [1.0],
+		     "offsets": "data000",
+		     "yindex": 1,
+		     "id": "tooltip_data000",
+		     "pathtransforms": [
+				[11.11111111111111, 0.0, 0.0, 11.11111111111111, 0.0, 0.0]
+		     ],
+		     "pathcoordinates": "display",
+		     "offsetcoordinates": "data",
+	   	     "zorder": 1,
+		     "xindex": 0,
+		     "alphas": [0.3],
+		     "facecolors": ["red"]
+		    },
+                 
+  		    {"paths": [[[[0.0, -0.5], [0.13260155, -0.5], [0.25978993539242673, -0.44731684579412084], [0.3535533905932738, -0.3535533905932738], [0.44731684579412084, -0.25978993539242673], [0.5, -0.13260155], [0.5, 0.0], [0.5, 0.13260155], [0.44731684579412084, 0.25978993539242673], [0.3535533905932738, 0.3535533905932738], [0.25978993539242673, 0.44731684579412084], [0.13260155, 0.5], [0.0, 0.5], [-0.13260155, 0.5], [-0.25978993539242673, 0.44731684579412084], [-0.3535533905932738, 0.3535533905932738], [-0.44731684579412084, 0.25978993539242673], [-0.5, 0.13260155], [-0.5, 0.0], [-0.5, -0.13260155], [-0.44731684579412084, -0.25978993539242673], [-0.3535533905932738, -0.3535533905932738], [-0.25978993539242673, -0.44731684579412084], [-0.13260155, -0.5], [0.0, -0.5]], ['M', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'Z']]],
+		     "edgecolors": ["#000000"],
+		     "edgewidths": [1.0],
+		     "offsets": "data001",
+		     "yindex": 1,
+		     "id": "tooltip_data001",
+		     "pathtransforms": [
+				[11.11111111111111, 0.0, 0.0, 11.11111111111111, 0.0, 0.0]
+		     ],
+		     "pathcoordinates": "display",
+		     "offsetcoordinates": "data",
+	   	     "zorder": 1,
+		     "xindex": 0,
+		     "alphas": [0.3],
+		     "facecolors": ["green"]
+		    }
+                 
+		],
+		"xscale": "linear",
+		"bbox": [0.125, 0.099999999999999978, 0.77500000000000002, 0.80000000000000004]
+	}],
+	"height": 480.0,
+	"width": 640.0,
+	"plugins": [{
+		"type": "reset"
+	}, {
+		"enabled": false,
+		"button": true,
+		"type": "zoom"
+	}, {
+		"enabled": false,
+		"button": true,
+		"type": "boxzoom"
+	},
+        
+	   {"voffset": 10,
+	   "labels": ['A', 'B', 'C'],
+	   "hoffset": 0,
+	   "location": "mouse",
+	   "type": "tooltip",
+	   "id": "tooltip_data000"}
+           ,
+        
+	   {"voffset": 10,
+	   "labels": ['alpha', 'beta', 'gamma'],
+	   "hoffset": 0,
+	   "location": "mouse",
+	   "type": "tooltip",
+	   "id": "tooltip_data001"}
+           
+        
+	],
+        "data": {
+          
+            "data000": [[1, 1.3], [2, 2], [3, 3.5]]
+            ,
+          
+            "data001": [[1, 1], [2, 2.2], [3, 2.6]]
+            
+          
+          ,"linedata": [[1, 1.1499999999999992], [3, 3.0499999999999989]]
+        },
+	"id": "el18376131347232"
+}
+);
+
+  
+</script>
+
+</body>
+</html>

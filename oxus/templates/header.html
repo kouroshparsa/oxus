@@ -3,5 +3,10 @@
   <script src="{{static}}/oxus/js/nv.d3.min.js" type="text/javascript"></script>
   <script src="{{static}}/oxus/js/tree_node.js" type="text/javascript"></script>
   <script src="{{static}}/oxus/js/mpld3.v0.2.js" type="text/javascript"></script>
-  <link rel="stylesheet" href="{{static}}/oxus/css/nv.d3.min.css" type="text/css"/>
-  <link rel="stylesheet" href="{{static}}/oxus/css/node_tree.css" type="text/css">
+{% if css %}
+  <style>{{css}}</style>
+{% else %}
+  {% for css in css_files %}
+  <link rel="stylesheet" href="{{static}}/oxus/css/{{css}}.css" type="text/css"/>
+  {% endfor %}
+{% endif %}

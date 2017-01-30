@@ -6,8 +6,37 @@ from jinja2 import Environment, PackageLoader
 TMP_ENV = Environment(loader=PackageLoader('oxus', 'templates'))
 
 
-def get_header(static_root='/static/'):
-    return TMP_ENV.get_template('header.html').render(static=static_root)
+def get_header(static_root='/static/', embed=False):
+    params = {'static': static_root}
+    css_files = ['nv.d3.min', 'node_tree']
+    if embed:
+        css = ''
+        for filename in css_files:
+            path = '{}/static/oxus/css/{}.css'.format(BASE_DIR, filename)
+            css = '{} {}'.format(css, open(path, 'r').read())
+        params['css'] = css
+    else:
+        params['css_files'] = css_files
+
+    return TMP_ENV.get_template('header.html').render(**params)
+
+
+def make_html(plots, output_path):
+    """
+    generates an html
+    @plots: list of Plot objects
+    @output_path: str
+    """
+    page_data = {'plot_header': get_header('https://raw.githubusercontent.com/kouroshparsa/oxus/master/oxus/static', embed=True)}
+
+    for plt in plots:
+        plt.script = plt.get_script()
+
+    page_data['plots'] = plots
+    html = TMP_ENV.get_template('basic.html').render(page_data)
+
+    with open(output_path, 'w') as out:
+        out.write(html)
 
 
 class Plot(object):
