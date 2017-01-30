@@ -9,3 +9,5 @@ pip install oxus
 see test.py for how to make a html.
 see the django app for django integration.
 
+# Demo:
+https://pythonhosted.org/oxus/

@@ -4,7 +4,7 @@ import numpy as np
 BASE_DIR = os.path.dirname(__file__)
 from jinja2 import Environment, PackageLoader
 TMP_ENV = Environment(loader=PackageLoader('oxus', 'templates'))
-
+import codecs
 
 def get_header(static_root='/static/', embed=False):
     params = {'static': static_root}
@@ -18,6 +18,16 @@ def get_header(static_root='/static/', embed=False):
     else:
         params['css_files'] = css_files
 
+    js_files = ['common', 'd3.min', 'nv.d3.min', 'tree_node', 'mpld3.v0.2']
+    if embed:
+        js = ''
+        for filename in js_files:
+            path = '{}/static/oxus/js/{}.js'.format(BASE_DIR, filename)
+            js = u'{} {}'.format(js, codecs.open(path, 'rb', 'utf-8').read())
+        params['javascript'] = js
+    else:
+        params['js_files'] = js_files
+
     return TMP_ENV.get_template('header.html').render(**params)
 
 
@@ -27,15 +37,14 @@ def make_html(plots, output_path):
     @plots: list of Plot objects
     @output_path: str
     """
-    page_data = {'plot_header': get_header('https://raw.githubusercontent.com/kouroshparsa/oxus/master/oxus/static', embed=True)}
+    page_data = {'plot_header': get_header(embed=True)}
 
     for plt in plots:
         plt.script = plt.get_script()
 
     page_data['plots'] = plots
     html = TMP_ENV.get_template('basic.html').render(page_data)
-
-    with open(output_path, 'w') as out:
+    with codecs.open(output_path, 'wb', 'utf-8') as out:
         out.write(html)
 
 

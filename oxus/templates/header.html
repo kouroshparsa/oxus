@@ -1,12 +1,17 @@
-  <script src="{{static}}/oxus/js/common.js" type="text/javascript"></script>
-  <script src="{{static}}/oxus//js/d3.min.js" type="text/javascript"></script>
-  <script src="{{static}}/oxus/js/nv.d3.min.js" type="text/javascript"></script>
-  <script src="{{static}}/oxus/js/tree_node.js" type="text/javascript"></script>
-  <script src="{{static}}/oxus/js/mpld3.v0.2.js" type="text/javascript"></script>
-{% if css %}
-  <style>{{css}}</style>
+{% if js_files %}
+  {% for js in js_files%}
+  <script src="{{static}}/oxus/js/{{js}}.js" type="text/javascript"></script>
+  {% endfor %}
 {% else %}
+  <script>
+  {{ javascript|safe }}
+  </script>
+{% endif %}
+
+{% if css_files %}
   {% for css in css_files %}
   <link rel="stylesheet" href="{{static}}/oxus/css/{{css}}.css" type="text/css"/>
   {% endfor %}
+{% else %}
+  <style>{{css|safe}}</style>
 {% endif %}
