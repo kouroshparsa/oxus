@@ -1,8 +1,9 @@
 import os
 import operator
+import numpy as np
 BASE_DIR = os.path.dirname(__file__)
 from jinja2 import Environment, PackageLoader
-TMP_ENV = Environment(loader=PackageLoader('pd3js', 'templates'))
+TMP_ENV = Environment(loader=PackageLoader('oxus', 'templates'))
 
 
 def get_header(static_root='/static/'):
@@ -36,10 +37,10 @@ class ScatterPlot(Plot):
         self.template = 'scatter_plot.js'
         super(ScatterPlot, self).__init__(*args, **kwargs)
 
-    def add_data(self, name='category1', x=[], y=[], tooltips=[], shape='circle', size=5):
+    def add_data(self, name='category1', x=[], y=[], tooltips=[], shape='circle', size=10):
         cat_data = []
         for ind, val in enumerate(x):
-            datum ={'x': val, 'y': y[ind], 'shape': shape, 'size': size}
+            datum ={'x': val, 'y': y[ind], 'shape': shape, 'size': str(size)}
             if len(tooltips) > ind:
                 datum['tooltip'] = tooltips[ind]
             cat_data.append(datum)
@@ -123,3 +124,54 @@ class TreeChart(Plot):
         kwargs['wrap_width'] = str(kwargs.get('wrap_width', 150)).lower()
         super(TreeChart, self).__init__(*args, **kwargs)
         self.data = self.convert_to_tree(kwargs['values'])[0]
+
+
+class CorrelationPlot(Plot):
+    SHAPES = {'circle': [[[[0.0, -0.5], [0.13260155, -0.5], [0.25978993539242673, -0.44731684579412084], [0.3535533905932738, -0.3535533905932738], [0.44731684579412084, -0.25978993539242673], [0.5, -0.13260155], [0.5, 0.0], [0.5, 0.13260155], [0.44731684579412084, 0.25978993539242673], [0.3535533905932738, 0.3535533905932738], [0.25978993539242673, 0.44731684579412084], [0.13260155, 0.5], [0.0, 0.5], [-0.13260155, 0.5], [-0.25978993539242673, 0.44731684579412084], [-0.3535533905932738, 0.3535533905932738], [-0.44731684579412084, 0.25978993539242673], [-0.5, 0.13260155], [-0.5, 0.0], [-0.5, -0.13260155], [-0.44731684579412084, -0.25978993539242673], [-0.3535533905932738, -0.3535533905932738], [-0.25978993539242673, -0.44731684579412084], [-0.13260155, -0.5], [0.0, -0.5]], ["M", "C", "C", "C", "C", "C", "C", "C", "C", "Z"]]]
+    }
+
+    def __init__(self, *args, **kwargs):
+        self.template = 'correlation_plot.js'
+        kwargs['title'] = kwargs.get('title', '')
+        kwargs['title_font_size'] = kwargs.get('title_font_size', 20)
+        kwargs['datasets'] = []
+        kwargs['fit_line_color'] = kwargs.get('fit_line_color', 'blue')
+        super(CorrelationPlot, self).__init__(*args, **kwargs)
+
+    def add_data(self, name, exp=[], act=[], tooltips=[], shape='circle', size=10, color='green'):
+        data = {'id': 'data00{}'.format(len(self.datasets)),\
+               'shape': CorrelationPlot.SHAPES[shape], 'exp': exp, 'act': act,\
+               'points': [list(val) for val in zip(exp, act)],\
+               'tooltips': tooltips, 'size': size, 'color': color}
+        self.datasets.append(data)
+
+    def get_correlation():
+        exp = []
+        act = []
+        for val in self.datasets:
+            exp = exp + val['exp']
+            act = act + val['act']
+        return np.corrcoef(act, exp)[0][1]
+
+    def get_script(self):
+        if len(self.datasets) < 1:
+            raise Exception('Please add data sets using the add_data method.')
+        self.xlim = [min(min(data['exp']) for data in self.datasets),\
+                     max(max(data['exp']) for data in self.datasets)]
+        self.ylim = [min(min(data['act']) for data in self.datasets),\
+                     max(max(data['act']) for data in self.datasets)]
+        deltax = self.xlim[1] - self.xlim[0]
+        deltay = self.ylim[1] - self.ylim[0]
+        self.xlim = [0.4 * deltax - self.xlim[0], 0.4 * deltax + self.xlim[1]]
+        self.ylim = [0.4 * deltay - self.ylim[0], 0.4 * deltay + self.ylim[1]]
+        exp = []
+        act = []
+        for val in self.datasets:
+            exp = exp + val['exp']
+            act = act + val['act']
+        
+        pt1 = np.unique(exp)
+        pt2 = np.poly1d(np.polyfit(exp, act, 1))(pt1)
+        self.fit_line = [[pt1[0], pt2[0]], [pt1[-1], pt2[-1]]]
+        return super(CorrelationPlot, self).get_script()
+

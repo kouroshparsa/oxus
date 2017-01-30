@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from pd3js.plots import get_header, ScatterPlot, PieChart, TreeChart
+from oxus.plots import *
 from settings import STATIC_URL
 import random
 import string
@@ -18,7 +18,7 @@ def index(request):
     for i in range(SIZE):
         tt = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(4))
         tooltips.append(tt)
-    plt1.add_data(name="data2", y=ydata2, x=xdata, shape='cross', tooltips=tooltips)
+    plt1.add_data(name="data2", y=ydata2, x=xdata, shape='cross', tooltips=tooltips, size=20)
 
     values = [2, 3, 5]
     labels = ['apple', 'orange', 'banana']
@@ -27,9 +27,14 @@ def index(request):
     values = {'food': {'fruits': ['apple', 'orange', 'banana'], 'vegetables': ['mint', 'asparagus', 'eggplant', 'avocado', 'braccoli']}}
     plt3 = TreeChart('plot3', values=values)
 
+    plt4 = CorrelationPlot("plot4", title='Correlation', xaxis='Expected', yaxis='Actual')
+    plt4.add_data('set1', exp=[1,2,3], act=[1.3,2,3.5], tooltips=['A', 'B', 'C'], color='red')
+    plt4.add_data('set1', exp=[1,2,3], act=[1,2.2,2.6], tooltips=['alpha', 'beta', 'gamma'], color='green')
+
     page_data = {'plot1_script': plt1.get_script(),\
                  'plot2_script': plt2.get_script(),\
                  'plot3_script': plt3.get_script(),\
+                 'plot4_script': plt4.get_script(),\
                  'plot_header': HEADER}
 
     return render(request, "index.html", page_data)

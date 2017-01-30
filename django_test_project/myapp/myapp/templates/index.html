@@ -2,12 +2,6 @@
 <html>
 <head>
   {{ plot_header|safe }}
-
-  <script type="text/javascript">
-  {{ plot1_script|safe }}
-  {{ plot2_script|safe }}
-  {{ plot3_script|safe }}
-  </script>
 </head>
 <body>
 <h1>Sample App</h1>
@@ -20,6 +14,16 @@
 
 <h3>Tree Chart</h2>
 <div id="plot3"></div>
+
+<h3>CorrelationPlot</h3>
+<div id="plot4"></div>
+
+  <script type="text/javascript">
+  {{ plot1_script|safe }}
+  {{ plot2_script|safe }}
+  {{ plot3_script|safe }}
+  {{ plot4_script|safe }}
+  </script>
 
 </body>
 </html>

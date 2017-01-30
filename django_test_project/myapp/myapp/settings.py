@@ -36,7 +36,7 @@ STATICFILES_FINDERS = (
 # Application definition
 
 INSTALLED_APPS = (
-    'pd3js',
+    'oxus',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

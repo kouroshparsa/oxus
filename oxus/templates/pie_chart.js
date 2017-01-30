@@ -32,8 +32,7 @@ nv.addGraph(function() {
              return tooltips[key][parseFloat(x)];
            }else{
              var x = String(key);
-             var y =  String(y)  + ' cal';
-             tooltip_str = '<center><b>'+x+'</b></center>' + y;
+             tooltip_str = '<center><b>'+x+'</b></center>' + y.value;
              return tooltip_str;
            }
          });
